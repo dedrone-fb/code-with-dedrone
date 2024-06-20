@@ -20,8 +20,10 @@ public class TrackResource {
 
 
     @GET
-    public List<TrackPoint> list() {
-        return trackService.list();
+    public List<TrackPoint> list(@QueryParam("unique") boolean unique) {
+        return unique
+                ? DedroneCollections.unique(trackService.list())
+                : trackService.list();
     }
 
     @POST
@@ -33,6 +35,6 @@ public class TrackResource {
     @DELETE
     public List<TrackPoint> delete(TrackPoint trackPoint) {
         trackService.delete(trackPoint);
-        return trackService.list();
+        trackService.list();
     }
 }
